@@ -1,0 +1,19 @@
+GET http://localhost:3005/recipe/
+Content-Type: application/json
+
+{
+    "RecipeName": "pappu",
+    "Limit": 1
+}
+
+###
+
+GET http://localhost:3005/ingredients/
+Content-Type: application/json
+
+{
+    "ingredients": "tomato",
+    "Limit": 1
+}
+
+###
