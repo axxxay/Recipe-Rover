@@ -1,0 +1,73 @@
+POST http://localhost:5000/register/
+Content-Type: application/json
+
+{
+    "userName": "Akshay Kumar Komakula",
+    "email": "akkiakshay440@gmail.com",
+    "password": "akshay123",
+    "gender": "Male",
+    "DOB": "2001-02-04",
+    "createdAt": "2023-05-31 21:22:30"
+}
+
+###
+
+POST http://localhost:5000/login/
+Content-Type: application/json
+
+{
+    "userName": "Akshay Kumar Komakula",
+    "email": "akkiakshay440@gmail.com",
+    "password": "akshay123"
+}
+
+###
+
+GET http://localhost:5000/recipe/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFrc2hheSBLdW1hciBLb21ha3VsYSIsImlhdCI6MTY4NTU0ODczNX0.RKIWZ_tH8aLV7xX3iUjW5uHg_BP2rbyzxcnDeH1c7dA
+
+{   
+    "diet": "vegetarian",
+    "RecipeName": "mutton",
+    "Limit": 10
+}
+
+###
+
+GET http://localhost:5000/ingredients/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFrc2hheSBLdW1hciBLb21ha3VsYSIsImlhdCI6MTY4NTU0ODczNX0.RKIWZ_tH8aLV7xX3iUjW5uHg_BP2rbyzxcnDeH1c7dA
+
+{
+    "ingredients": "tomato, oil",
+    "Limit": 1
+}
+
+###
+
+GET http://localhost:5000/cuisine/?search_q=biryani&cuisineType=Indian&Limit=1
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFrc2hheSBLdW1hciBLb21ha3VsYSIsImlhdCI6MTY4NTU0ODczNX0.RKIWZ_tH8aLV7xX3iUjW5uHg_BP2rbyzxcnDeH1c7dA
+
+###
+
+GET http://localhost:5000/timeToCook/
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkFrc2hheSBLdW1hciBLb21ha3VsYSIsImlhdCI6MTY4NTU0ODczNX0.RKIWZ_tH8aLV7xX3iUjW5uHg_BP2rbyzxcnDeH1c7dA
+
+{
+    "RecipeName": "biryani",
+    "minCookingTime": 25,
+    "maxCookingTime": 30,
+    "Limit": 10
+}
+
+###
+
+GET http://localhost:5000/random-recipe/
+Content-Type: application/json
+
+{
+    "limit": 2
+}
