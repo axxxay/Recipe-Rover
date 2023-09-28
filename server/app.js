@@ -98,12 +98,9 @@ app.post('/login', async (request, response) => {
             const payload = {
                 username: userName
             };
-            const keyQuery = 'SELECT key FROM apikey;';
-            const apikey = await db.get(keyQuery);
-            const {key} = apikey
             const jwtToken = jwt.sign(payload, "reciperover69420");
             response.status(200);
-            response.send({jwtToken, key});
+            response.send({jwtToken});
         }
     }
 });

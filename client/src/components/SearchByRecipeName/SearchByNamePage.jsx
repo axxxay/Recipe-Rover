@@ -19,6 +19,9 @@ const apiStatusConstants = {
     failure: 'FAILURE'
 }
 
+const apiKey = process.env.REACT_APP_API_KEY;
+
+
 const SearchByNamePage = () => {
 
     const dietList = ['Diabetic Friendly', 'Vegetarian', 'High Protein Vegetarian', 'Non Vegeterian', 'High Protein Non Vegetarian', 
@@ -133,7 +136,7 @@ const SearchByNamePage = () => {
         
     }
 
-    const apiKey = Cookies.get("apiKey");
+    
 
     const searchWithAI = async () => {
 

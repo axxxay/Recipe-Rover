@@ -16,6 +16,8 @@ const apiStatusConstants = {
     failure: 'FAILURE'
 }
 
+const apiKey = process.env.REACT_APP_API_KEY;
+
 const SearchByIngredientsPage = () => {
 
     const [recipeList, setRecipeList] = useState([])
@@ -100,7 +102,6 @@ const SearchByIngredientsPage = () => {
         
     }
 
-    const apiKey = Cookies.get("apiKey");
 
     const searchWithAI = async () => {
 

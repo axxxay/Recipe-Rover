@@ -62,7 +62,6 @@ const LoginPage = (props) => {
         const data = await response.json()
         if (response.ok === true) {
             Cookies.set('jwtToken', data.jwtToken, {expires: 15})
-            Cookies.set('apiKey', data.key, {expires: 15})
             setShowErrorMessage(false)
             setToggleLoginLogout(true)
             setOpenLogin(false)
