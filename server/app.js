@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.use(cors());
 
+const PORT = process.env.PORT || 5000;
+
 const dbPath = path.join(__dirname, "IndianRecipes.db");
 
 let db = null;
@@ -23,8 +25,8 @@ const InitializeDBAndServer = async () => {
             filename: dbPath,
             driver: sqlite3.Database
         })
-        app.listen(5000, () => {
-            console.log("Server running at http://localhost:5000");
+        app.listen(PORT, () => {
+            console.log(`Server running at http://localhost:${PORT}`);
         })
     } catch (e) {
         console.log(`DB Error: ${e.message}`);
