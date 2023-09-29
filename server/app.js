@@ -77,11 +77,6 @@ app.post('/register', async (request, response) => {
     }
 });
 
-app.get('/', async (request, response) => {
-    
-    response.send({key})
-})
-
 // User login API
 app.post('/login', async (request, response) => {
     const {userName="", email="", password} = request.body;
