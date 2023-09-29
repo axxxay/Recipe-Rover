@@ -142,7 +142,8 @@ const SearchByCuisinePage = () => {
 
         const jwtToken = Cookies.get("jwtToken")
         const query = `search_q=${searchInput}&cuisineType=${cuisine}&Limit=${limit}`
-        const url = `http://localhost:5000/cuisine/?${query}`
+        // const url = `http://localhost:5000/cuisine/?${query}`
+        const url = `https://reicpe-rover-backend.onrender.com/cuisine/?${query}`
         const options = {
             method: "GET",
             headers: {

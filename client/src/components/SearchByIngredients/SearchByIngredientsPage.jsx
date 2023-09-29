@@ -78,7 +78,8 @@ const SearchByIngredientsPage = () => {
         setApiStatus(apiStatusConstants.inProgress)
         const jwtToken = Cookies.get("jwtToken")
         const query = `ingredients=${searchInput}&Limit=${limit}`
-        const url = `http://localhost:5000/ingredients/?${query}`
+        // const url = `http://localhost:5000/ingredients/?${query}`
+        const url = `https://reicpe-rover-backend.onrender.com/ingredients/?${query}`
         const options = {
             method: "GET",
             headers: {

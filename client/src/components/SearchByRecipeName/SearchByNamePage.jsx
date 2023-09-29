@@ -111,7 +111,8 @@ const SearchByNamePage = () => {
         setApiStatus(apiStatusConstants.inProgress)
         const jwtToken = Cookies.get("jwtToken")
         const query = `search_q=${searchInput}&diet=${diet}&Limit=${limit}`
-        const url = `http://localhost:5000/recipe/?${query}`
+        // const url = `http://localhost:5000/recipe/?${query}`
+        const url = `https://reicpe-rover-backend.onrender.com/recipe/?${query}`
         const options = {
             method: "GET",
             headers: {
