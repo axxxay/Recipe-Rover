@@ -6,13 +6,14 @@ import SearchByNutrition from "./SearchByNutrition"
 import SearchByCuisine from "./SearchByCuisine"
 import { ToastContainer } from "react-toastify"
 import { React } from "react"
+import Footer from "./Footer"
 
 const MainHomePage = () => {
     return(
         <div className="font-['Roboto']">
             <ToastContainer
                 position="top-center"
-                autoClose={5000}
+                autoClose={2500}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
@@ -30,6 +31,7 @@ const MainHomePage = () => {
                 <SearchByNutrition />
                 <SearchByCuisine />
             </div>
+            <Footer />
         </div>
     )
 }

@@ -3,9 +3,7 @@ import Switch from '@mui/material/Switch';
 import {FcClearFilters} from 'react-icons/fc'
 import NavBar from "../HomePage/NavBar"
 import { useState } from 'react'
-import Cookies from 'js-cookie';
-import {Oval} from 'react-loader-spinner'
-import {MagnifyingGlass} from 'react-loader-spinner'
+import {MagnifyingGlass, Oval} from 'react-loader-spinner'
 import NutritionItem from './NutritionItem'
 import {HowItWorks} from '../RecipeDetails/HowItWorks'
 import AiRecipeItem from '../AiRecipeGen/AiRecipeItem';
@@ -77,6 +75,7 @@ const SearchByNutritionPage = () => {
     const isChecked = () => {
         setApiStatus(apiStatusConstants.initial)
         setToggle(!toggle)
+        setCircle(false)
     }
 
     const onChangeMinCarbs = event => {
@@ -593,7 +592,7 @@ const SearchByNutritionPage = () => {
                         </button>
                         {
                             toggle &&
-                            <select onChange={onChangeLang} className=' md:ml-[8px] ml-2 w-[75px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg h-[35px] outline-none'>
+                            <select onChange={onChangeLang} className=' bg-transparent md:ml-[8px] ml-2 w-[75px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg h-[35px] outline-none'>
                                 {languageList.map(eachItem => (<option key={eachItem} value={eachItem}>{eachItem}</option>))}
                             </select>
                         }

@@ -4,8 +4,6 @@ const sqlite3 = require("sqlite3");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const path = require("path");
-const { request } = require("http");
-const { error } = require("console");
 const cors = require('cors');
 
 const app = express();
@@ -82,7 +80,6 @@ app.post('/login', async (request, response) => {
     const {userName="", email="", password} = request.body;
     const selectDBQuery = `SELECT * FROM users WHERE username = '${userName}' OR email = '${email}';`;
     const dbUser = await db.get(selectDBQuery);
-    console.log(dbUser)
     if(dbUser === undefined) {
         response.status(400);
         response.send({invalid: "Invalid username"});
@@ -107,7 +104,6 @@ let userId = null;  // userId identifier has user id of a user which is unique, 
 // Search by Recipe Name API
 app.get('/recipe', authenticateToken, async (request, response) => {
     const {search_q, diet, Limit} = request.query;
-    console.log(request.query)
     // const username = request.username;
     // const selectUserQuery = `SELECT user_id FROM users WHERE username = '${username}';`;
     // const dbUser = await db.get(selectUserQuery);

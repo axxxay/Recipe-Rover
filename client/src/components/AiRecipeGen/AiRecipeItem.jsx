@@ -7,7 +7,7 @@ const AiRecipeItem = ({recipeList}) => {
     const {calories, carbohydrates, protein, fat, fiber, cholesterol="", vitamin="", sugar="", iron=""} = nutritional_info
 
     return(
-        <div className='shadow-lg mb-6 bg-[white] md:p-5 pb-1 pl-[10px] pt-3 pr-[10px] rounded-lg w-[100%]' >
+        <div className='shadow-lg mb-6 bg-[white] md:p-5 pb-3 pl-[10px] pt-3 pr-[10px] rounded-lg w-[100%]' >
             <h1 className="text-[green] font-['Roboto'] text-[20px] md:text-[25px] font-bold mb-3" >{title}</h1>
             <div className='flex items-center md:my-3 mb-0 mt-3  flex-wrap '>
                 <div className='flex items-center mr-7 mb-3 '>

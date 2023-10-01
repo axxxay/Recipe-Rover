@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
+import {Oval} from 'react-loader-spinner'
 import {AiOutlineEye, AiOutlineEyeInvisible} from 'react-icons/ai'
 import { toast } from 'react-toastify'
 import './authSideBar.css'
@@ -23,6 +24,7 @@ const RegistrationPage = (props) => {
     const [errorMessage, setErrorMessage] = useState('')
     const [userLength, setUserLength] = useState(false)
     const [showPassword, setShowPassword] = useState(false);
+    const [circle, setCircle] = useState(false)
 
     const onChangeUsername = (event) => {
         setUserName(event.target.value);
@@ -102,10 +104,12 @@ const RegistrationPage = (props) => {
         if(response.ok === true) {
             setToggleLoginRegister(true)
             setShowErrorMessage(false)
+            setCircle(false)
             toast.success("Registration Successful!")
         } else {
             setShowErrorMessage(true)
             setErrorMessage(data.userExists)
+            setCircle(false)
             toast.error("User Already Exists!")
 
         }
@@ -116,6 +120,30 @@ const RegistrationPage = (props) => {
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+        if(userName === "") {
+            setIsUsernameEmpty(true)
+        } else {
+            setIsUsernameEmpty(false)
+        }
+
+        if(userName.length < 6) {
+            setUserLength(true)
+        } else {
+            setUserLength(false)
+        }
+
+        if(password === "") {
+            setIsPasswordEmpty(true)
+        } else {
+            setIsPasswordEmpty(false)
+        }
+
+        if(DOB === "") {
+            setIsDOBEmpty(true)
+        } else {
+            setIsDOBEmpty(false)
+        }
+
         if(!emailRegex.test(email) || (!email.endsWith("@gmail.com") && !email.endsWith("@outlook.com") && !email.endsWith("@hotmail.com") && !email.endsWith("@yahoo.com"))) {
             console.log("email")
             setIsEmailEmpty(true)
@@ -124,35 +152,8 @@ const RegistrationPage = (props) => {
             setIsEmailEmpty(false)
         }
 
-        if(userName === "") {
-            setIsUsernameEmpty(true)
-            return
-        } else {
-            setIsUsernameEmpty(false)
-        }
-
-        if(userName.length < 6) {
-            setUserLength(true)
-            return
-        } else {
-            setUserLength(false)
-        }
-
-        if(password === "") {
-            setIsPasswordEmpty(true)
-            return
-        } else {
-            setIsPasswordEmpty(false)
-        }
-
-        if(DOB === "") {
-            setIsDOBEmpty(true)
-            return
-        } else {
-            setIsDOBEmpty(false)
-        }
-        
-        if(!isEmailEmpty && !isUsernameEmpty && !isDOBEmpty && !isPasswordEmpty && !userLength) {
+        if(userName !== "" && userName.length >= 6 && password !== "" && DOB !== "") {
+            setCircle(true)
             registerUser()
         } else {
             return
@@ -167,32 +168,32 @@ const RegistrationPage = (props) => {
                 <hr className="border-[2px] border-[#e26310] w-[80px] mb-[10px]"/>
                 {showErrorMessage && < p className='text-[15px] text-[red] text-center'>*{errorMessage}!</p>}
                 <Box
-                sx={{
-                    '& > :not(style)': {marginBottom: '6px', width: '100%' },
-                }}
-                noValidate
-                autoComplete="on"
-                >
+                    sx={{
+                        '& > :not(style)': {marginBottom: '1px', width: '100%' },
+                    }}
+                    noValidate
+                    autoComplete="on"
+                    >
                     <TextField id="username" label="Username" variant="standard" value={userName} onChange={onChangeUsername}/>
                 </Box>
                 {isUsernameEmpty && <p className='text-[red] text-[10px]'>*Enter username</p>}
                 {userLength && <p className='text-[red] text-[10px]'>*username should contain atleast 6 characters</p>}
                 <Box
-                sx={{
-                    '& > :not(style)': {marginBottom: '20px', width: '100%',},
-                }}
-                noValidate
-                autoComplete="on"
-                >
+                    sx={{
+                        '& > :not(style)': {marginTop: '8px', width: '100%',},
+                    }}
+                    noValidate
+                    autoComplete="on"
+                    >
                     <TextField id="email" label="Email" variant="standard" value={email} onChange={onChangeEmail}/>
                 </Box>
                 {isEmailEmpty && <p className='text-[red] text-[10px]'>*Invalid email</p>}
-                <div className='flex items-center mb-[20px]'>
+                <div className='flex items-center mt-[20px]'>
                     <label className='w-[50%] text-[gray]' htmlFor='date'>Date Of Birth</label>
                     <input type='date' id='date' value={DOB} onChange={onChangeDOB} className='bg-transparent border-[1px] border-[gray] rounded-[5px] text-[15px] px-[6px] py-[3px] outline-none' />
                 </div>
                 {isDOBEmpty && <p className='text-[red] text-[10px]'>*Select Date of birth</p>}
-                <div className='flex items-center'>
+                <div className='flex items-center mt-5'>
                     <label className='w-[50%] text-[gray]' htmlFor='gender'>Gender</label>
                     <select onChange={onChangeGender} value={gender} className='bg-transparent border-[1px] border-[gray] rounded-[5px] text-[15px] px-[6px] py-[3px] outline-none' id='gender'>
                         <option value={"Male"}>Male</option>
@@ -203,21 +204,40 @@ const RegistrationPage = (props) => {
                 <div className='relative'>
                     <Box
                     sx={{
-                        '& > :not(style)': {marginBottom: '25px', width: '100%' },
+                        '& > :not(style)': {marginTop: '10px', width: '100%' },
                     }}
                     noValidate
                     autoComplete="on"
                     >
                         <TextField id="password" label="Password" variant="standard" type={showPassword ? 'text' : 'password'} value={password} onChange={onChangePassword} className='w-[100vw]'/>
                     </Box>
-                    <div className='absolute top-[32%] right-[4px] z-[100] cursor-pointer'>
+                    <div className='absolute top-[55%] right-[4px] z-[100] cursor-pointer'>
                             {
                                 !showPassword ? <AiOutlineEyeInvisible className='text-[18px] text-[#00000099]' onClick={onClickShowPassword} /> : <AiOutlineEye className='text-[18px] text-[#00000099]' onClick={onClickShowPassword} />
                             }
                     </div>
                 </div>
                 {isPasswordEmpty && <p className='text-[red] text-[10px]'>*Enter password</p>}
-                <button type='submit' className='mb-[20px] bg-[#e26310] px-[15px] w-[100%] py-[7px] rounded-[6px] text-[#ffffff] border-0 outline-none '>Register</button>
+                <button type='submit' disabled={circle} className='mb-[20px] mt-5 flex flex-row justify-center bg-[#e26310] px-[15px] w-[100%] py-[7px] rounded-[6px] text-[#ffffff] border-0 outline-none '>
+                    {
+                        circle ? 
+                        (<Oval
+                        height={20}
+                        padding={10}
+                        width={20}
+                        color="#ffffff"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                        visible={true}
+                        ariaLabel='oval-loading'
+                        secondaryColor="#ffffff"
+                        strokeWidth={2}
+                        strokeWidthSecondary={2}
+                        />) 
+                        :
+                        "Register"
+                    }
+                </button>
             </form>
             <p className='text-center font-[600]'>Have an account? <span className='text-[blue] cursor-pointer' onClick={() => setToggleLoginRegister(true)}>Login here</span> </p>
         </>

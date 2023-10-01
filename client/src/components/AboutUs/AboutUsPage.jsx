@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom"
 import NavBar from "../HomePage/NavBar"
+import MainAuthSideBar from '../AuthSideBar/MainAuthSideBar';
+import { useContext, React } from 'react';
+import { AuthContext } from '../../context/AuthContext';
 
 
 const AboutUsPage = () => {
+    const {openLogin } = useContext(AuthContext)
+
     return (
         <>
         <NavBar bgColor={"#1e1e1e"} itemsColor="white" logoColor="white" />
@@ -37,6 +42,7 @@ const AboutUsPage = () => {
                 <div className="w-[100%] md:w-[50%] h-[100%] self-center">
                     <img src="https://i.ibb.co/vZ045KC/IMG-20230211-181831.png" alt="about" className="w-[100%] md:h-[90.5vh]" draggable="false"/>
                 </div>
+                {openLogin && <MainAuthSideBar />}
             </div>
         </>
     )

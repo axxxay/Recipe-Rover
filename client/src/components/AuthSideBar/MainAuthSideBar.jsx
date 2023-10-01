@@ -9,7 +9,7 @@ const MainAuthSideBar = () => {
      const {setOpenLogin, openLogin} = useContext(AuthContext)
 
     return(
-        <div className={`login-page-modal ${openLogin ? 'open' : 'closed'}`}>
+        <div className={`login-page-modal z-[1000] ${openLogin ? 'open' : 'closed'}`}>
             <div className="login-page-overlay" onClick={() =>  setOpenLogin(false)}></div>
             <div className="login-page-modal-content">
                 <SideNavBar />

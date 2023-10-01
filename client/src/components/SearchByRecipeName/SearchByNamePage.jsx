@@ -2,7 +2,7 @@ import {BsSearch} from 'react-icons/bs'
 import * as React from 'react';
 import Switch from '@mui/material/Switch';
 import NavBar from "../HomePage/NavBar"
-import {MagnifyingGlass} from 'react-loader-spinner'
+import {MagnifyingGlass, Oval} from 'react-loader-spinner'
 import RecipeItem from './RecipeItem'
 import { useState, useEffect } from 'react'
 import Cookies from 'js-cookie'
@@ -35,6 +35,7 @@ const SearchByNamePage = () => {
     const [placeholder, setPlaceholder] = useState("")
     const [toggle, setToggle] = useState(false)
     const [language, setLanguage] = useState("English")
+    const [circle, setCircle] = useState(false)
 
     const languageList = [
         "English",
@@ -54,6 +55,7 @@ const SearchByNamePage = () => {
     const isChecked = () => {
         setApiStatus(apiStatusConstants.initial)
         setToggle(!toggle)
+        setCircle(false)
     }
 
     const onChangeLang = event => {
@@ -127,12 +129,15 @@ const SearchByNamePage = () => {
             const recipeData = await response.json()
             if(recipeData.length === 0) {
                 setApiStatus(apiStatusConstants.notFound)
+                setCircle(false)
             } else {
                 setApiStatus(apiStatusConstants.success)
                 setRecipeList(recipeData)
+                setCircle(false)
             }
         } else {
             setApiStatus(apiStatusConstants.failure)
+            setCircle(false)
         }
         
     }
@@ -190,14 +195,17 @@ const SearchByNamePage = () => {
             console.log(recipeData)
             if(recipeData.length === 0 || (recipeData.choices[0].message.content === "Error")) {
                 setApiStatus(apiStatusConstants.notFound)
+                setCircle(false)
             } else {
                 console.log(JSON.parse(recipeData.choices[0].message.content))
                 const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
                 setApiStatus(apiStatusConstants.success)
                 setRecipeList(AiRecipeData)
+                setCircle(false)
             }
         } else {
             setApiStatus(apiStatusConstants.failure)
+            setCircle(false)
         }
 
     }
@@ -206,6 +214,7 @@ const SearchByNamePage = () => {
         if(searchInput === ""){
             return
         }
+        setCircle(true)
         if (toggle) {
             searchWithAI()
         } else {
@@ -288,25 +297,43 @@ const SearchByNamePage = () => {
                 <div className='flex flex-col md:flex-row items-center justify-center w-[100%]'>
                     <div className="md:w-[50%] w-[95%] md:mt-5 mt-4 flex items-center border-[1px] border-[solid] border-[gray] rounded-lg h-[35px]">
                         <input type="search" placeholder={`Search by name ${placeholder}`} value={searchInput} onChange={onChangeSearchInput} onKeyDown={onPressEnter} className="w-[100%] border-0 outline-none pl-3 text-[15px] font-['Roboto'] " />
-                        <button onClick={onClickSearch} className="border-0 p-0 bg-[transparent] outline-none " type="button">
-                            <BsSearch className='text-[18px] mx-[15px] text-[darkgray]' />
+                        <button onClick={onClickSearch} disabled={circle} className="border-0 p-0 bg-[transparent] outline-none " type="button">
+                            {
+                                circle ? 
+                                (<div className='mx-4'>
+                                    <Oval
+                                    height={18}
+                                    width={18}
+                                    color="darkgray"
+                                    wrapperStyle={{}}
+                                    wrapperClass=""
+                                    visible={true}
+                                    ariaLabel='oval-loading'
+                                    secondaryColor="#ffffff"
+                                    strokeWidth={2}
+                                    strokeWidthSecondary={5}
+                                    />
+                                </div>)
+                                :
+                                <BsSearch className='text-[18px] mx-4 text-[darkgray]' />
+                            }
                         </button>
                     </div>
                     <div className='flex items-center w-[95%] md:w-auto justify-evenly mt-3 md:mt-auto md:justify-start '>
-                        <select onChange={onChangeDiet} className='w-[65px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg md:mx-5 mx-0 h-[35px] outline-none'>
+                        <select onChange={onChangeDiet} className='bg-transparent w-[65px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg md:mx-5 mx-0 h-[35px] outline-none'>
                             <option value="">Diet</option>
                             {dietList.map(eachItem => (<option key={eachItem} value={eachItem}>{eachItem}</option>))}
                         </select>
                         { 
                             !toggle && 
-                            <select onChange={onChangeLimit} className='  w-[65px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg h-[35px] outline-none'>
+                            <select onChange={onChangeLimit} className=' bg-transparent  w-[65px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg h-[35px] outline-none'>
                                 <option value={1}>Limit</option>
                                 {optionArr.map(eachItem => <option key={eachItem} value={eachItem} >{eachItem}</option>)}
                             </select>
                         }
                         {
                             toggle &&
-                            <select onChange={onChangeLang} className='  w-[75px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg h-[35px] outline-none'>
+                            <select onChange={onChangeLang} className=' bg-transparent w-[75px] pl-[5px] text-[15px] border-[1px] border-[solid] border-[gray] rounded-lg h-[35px] outline-none'>
                                 {languageList.map(eachItem => (<option key={eachItem} value={eachItem}>{eachItem}</option>))}
                             </select>
                         }
