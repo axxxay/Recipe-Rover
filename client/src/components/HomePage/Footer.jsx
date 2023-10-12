@@ -48,11 +48,11 @@ const Footer = () => {
                     <div className="md:mt-4 mt-3">
                         <div className="flex items-center mb-2 md:mb-3">
                             <IoMdCall className="text-[#606060] text-[18px] md:text-[22px] mr-2" />
-                            <a href="tel:+91987654321" className="text-[#606060] text-[14px] md:text-[16px] font-['Roboto']">+91 987654321</a>
+                            <a href="tel:+91987654321" className="text-[#606060] text-[14px] md:text-[16px] font-['Roboto']">+91 9876543210</a>
                         </div>
                         <div className="flex items-center mb-2 md:mb-3">
                             <HiOutlineMail className="text-[#606060] text-[18px] md:text-[22px] mr-2" />
-                            <a href="mailto:support.reciperover@gmail.com" className="text-[#606060] text-[14px] md:text-[16px] font-['Roboto']">reciperover@gmail.com</a>
+                            <a href="mailto:reciperover@gmail.com" className="text-[#606060] text-[14px] md:text-[16px] font-['Roboto']">reciperover@gmail.com</a>
                         </div>
                     </div>
                 </div>

@@ -1,0 +1,47 @@
+[33mcommit d81953aeedcce8a480ecc5ffa4804c1a250c3bc9[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Sun Oct 1 19:47:17 2023 +0530
+
+    fixed login bugs and added footer
+
+[33mcommit 13a9b99afbcca4e30490864cd66a61d66fc10bc7[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 23:48:19 2023 +0530
+
+    updated API
+
+[33mcommit 06c250ec74b10a7fe6e3328b401cfab194f4b409[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 23:36:32 2023 +0530
+
+    REMOVED route from server
+
+[33mcommit d593b8e8f06b2ed9493d7b14216a9e268dde1f9f[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 23:28:31 2023 +0530
+
+    added env var to server
+
+[33mcommit 1aeefc06fc2b671eab583eac1aeffbb43e2ee02f[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 01:07:04 2023 +0530
+
+    updated .env file
+
+[33mcommit bf2a4006ddda9c23cd98415dcc05777b5ec9ce05[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 01:00:51 2023 +0530
+
+    Remove .env file from Git history
+
+[33mcommit 6d5253a517dfa32f7c23aad9247e1d3885cbd4b8[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 00:52:42 2023 +0530
+
+    added env file
+
+[33mcommit 39d4b6c94da042fd71a636bc242cff248ef66585[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: axxxay <akkiakshay440@gmail.com>
+Date:   Fri Sep 29 00:13:58 2023 +0530
+
+    fixed minor issues and improved overall UI

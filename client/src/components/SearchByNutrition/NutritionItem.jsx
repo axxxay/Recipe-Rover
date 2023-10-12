@@ -78,10 +78,6 @@ const NutritionItem = (props) => {
                     <li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>
                 )}
             </ul>
-
-            {/* <div className='mb-6'>
-                <a href={URL} target='_blank' rel="noreferrer" className='text-[12px] text-[white] bg-[#ff6200] px-4 py-[6px] rounded-md font-["Roboto"] '>More Details</a>
-            </div> */}
         </div>
     )
 }
