@@ -9,7 +9,7 @@ const Footer = () => {
         <footer className="bg-[#f9e9ad40] w-[100%] px-[25px] md:px-[90px] py-[25px] md:py-[50px] xl:px-[180px]">
             <div className="flex items-center">
                 <img src="/reciperover-logo.png" className="w-[50px]" alt="footer-logo" />
-                <h1 className={`text-[#e26310] font-[800] md:text-[18px] text-[14px] ml-2`}>Recipe Rover</h1>
+                <h1 className={`text-[#e26310] font-[800] md:text-[18px] text-[14px] ml-2`}>Menu Maverick</h1>
             </div>
 
             <div className="flex pt-8 md:justify-between md:flex-row flex-col ">
@@ -59,7 +59,7 @@ const Footer = () => {
             </div>
             <div className="flex items-center justify-center mt-4 md:mt-7">
                 <AiOutlineCopyright className="text-[#606060] text-[16px] mr-2" />
-                <p className="text-[#606060] text-[13px] font-['Roboto'] ">2023 Recipe Rover</p>
+                <p className="text-[#606060] text-[13px] font-['Roboto'] ">2023 Menu Maverick</p>
             </div>
         </footer>
     )
