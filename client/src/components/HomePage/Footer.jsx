@@ -59,7 +59,7 @@ const Footer = () => {
             </div>
             <div className="flex items-center justify-center mt-4 md:mt-7">
                 <AiOutlineCopyright className="text-[#606060] text-[16px] mr-2" />
-                <p className="text-[#606060] text-[13px] font-['Roboto'] ">2023 Recipe Rover</p>
+                <p className="text-[#606060] text-[13px] font-['Roboto'] ">2024 Recipe Rover</p>
             </div>
         </footer>
     )

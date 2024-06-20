@@ -4,7 +4,7 @@ import { RxLapTimer } from 'react-icons/rx'
 
 const AiRecipeItem = ({recipeList}) => {
     const {title, cuisine, diet, ingredients, ingredients_might_include="", instructions, no_of_servings, nutritional_info, time_to_cook } = recipeList
-    const {calories, carbohydrates, protein, fat, fiber, cholesterol="", vitamin="", sugar="", iron=""} = nutritional_info
+    const {calories, carbohydrates, protein, fat, fiber, cholesterol="", vitamins="", sugar="", iron=""} = nutritional_info
 
     return(
         <div className='shadow-lg mb-6 bg-[white] md:p-5 pb-3 pl-[10px] pt-3 pr-[10px] rounded-lg w-[100%]' >
@@ -63,10 +63,10 @@ const AiRecipeItem = ({recipeList}) => {
                                 <td className='font-["Roboto"] font-[500] text-[#3f3f3f] pl-4 md:text-[16px] text-[14px]'>{cholesterol}</td>
                             </tr>
                         }
-                        {vitamin !== "" &&
+                        {vitamins !== "" &&
                             <tr className='border-[afafaf] border-solid border-[1px] bg-[#f9eee8]'>
                                 <td className='font-["Roboto"] text-[#3f3f3f] pl-6 py-1 font-semibold md:text-[16px] text-[14px]'>Vitamin (%)</td>
-                                <td className='font-["Roboto"] font-[500] text-[#3f3f3f] pl-4 md:text-[16px] text-[14px]'>{vitamin}</td>
+                                <td className='font-["Roboto"] font-[500] text-[#3f3f3f] pl-4 md:text-[16px] text-[14px]'>{vitamins}</td>
                             </tr>
                         }
                         {iron !== "" &&
@@ -89,21 +89,21 @@ const AiRecipeItem = ({recipeList}) => {
                 <div className="md:order-1 md:w-[35%]">
                     <h1 className='md:text-[22px] text-[20px] mb-2 font-[600] font-["Roboto"] text-[#3f3f3f] mt-3'>Ingredients:</h1>
                     <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                        {ingredients.map(eachItem => (<li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
+                        {ingredients.map((eachItem, index) => (<li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
                     </ul>
                 </div>
                 {ingredients_might_include.length !== 0 &&
                 <div className="md:order-1 md:w-[30%]">
                     <h1 className='md:text-[22px] text-[20px] mb-2 font-[600] font-["Roboto"] text-[#3f3f3f] mt-3'>Ingredients Might Include:</h1>
                     <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                        {ingredients_might_include.map(eachItem => (<li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
+                        {ingredients_might_include.map((eachItem, index) => (<li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
                     </ul>
                 </div>}
             </div>
             <h1 className='md:text-[22px] text-[20px] mb-2 mt-3 font-[600] font-["Roboto"] text-[#3f3f3f] '>Instructions:</h1>
             <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                {instructions.map(eachItem => 
-                    <li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>
+                {instructions.map((eachItem, index) => 
+                    <li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>
                 )}
             </ul>
         </div>

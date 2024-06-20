@@ -27,18 +27,18 @@ const RecipeItem = ({recipeDetails}) => {
                 (<>
                     <h1 className='md:text-[22px] text-[20px] mb-2 font-[600] font-["Roboto"] text-[#3f3f3f] '>Ingredients:</h1>
                     <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                        {translatedIngredientsList.map(eachItem => (<li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
+                        {translatedIngredientsList.map((eachItem, index) => (<li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
                     </ul>
                     <h1 className='md:text-[22px] text-[20px] mb-2 mt-3 font-[600] font-["Roboto"] text-[#3f3f3f] '>Translated Ingredients:</h1>
                     <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                        {ingredientsList.map(eachItem => (<li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
+                        {ingredientsList.map((eachItem, index) => (<li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
                     </ul>
                 </>)
             :
                 (<>
                     <h1 className='md:text-[22px] text-[20px] mb-2 font-[600] font-["Roboto"] text-[#3f3f3f] '>Ingredients:</h1>
                     <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                        {translatedIngredientsList.map(eachItem => (<li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
+                        {translatedIngredientsList.map((eachItem, index) => (<li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
                     </ul>
                 </>)
             }

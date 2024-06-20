@@ -24,7 +24,7 @@ const SearchByCuisinePage = () => {
     const cuisineList = [
         'Indian', 'South Indian Recipes', 'Andhra', 'Udupi', 'Mexican', 'Bengali Recipes', 'Punjabi', 'Chettinad',
         'Tamil Nadu', 'Maharashtrian Recipes', 'North Indian Recipes', 'Italian Recipes', 'Thai', 'Chinese',
-        'Kerala Recipes', 'Gujarati Recipes?', 'Rajasthani', 'Asian', 'Middle Eastern', 'European', 'Kashmiri',
+        'Kerala Recipes', 'Gujarati Recipes', 'Rajasthani', 'Asian', 'Middle Eastern', 'European', 'Kashmiri',
         'Karnataka', 'Lucknowi', 'Hyderabadi', 'Arab', 'Assamese', 'Bihari', 'Himachal', 'Cantonese', 'North East India Recipes',
         'Mughlai', 'Japanese', 'Mangalorean', 'Vietnamese', 'British', 'Greek', 'Nepalese', 'Oriya Recipes', 'French',
         'Indo Chinese', 'Sri Lankan', 'Haryana', 'Uttar Pradesh', 'Malvani', 'Indonesian', 'African', 'Korean', 'American',
@@ -144,8 +144,8 @@ const SearchByCuisinePage = () => {
 
         const jwtToken = Cookies.get("jwtToken")
         const query = `search_q=${searchInput}&cuisineType=${cuisine}&Limit=${limit}`
-        // const url = `http://localhost:5000/cuisine/?${query}`
-        const url = `https://reicpe-rover-backend.onrender.com/cuisine/?${query}`
+        const url = `http://localhost:5000/cuisine/?${query}`
+        // const url = `https://reicpe-rover-backend.onrender.com/cuisine/?${query}`
         const options = {
             method: "GET",
             headers: {
@@ -183,21 +183,50 @@ const SearchByCuisinePage = () => {
         setApiStatus(apiStatusConstants.inProgress)
 
         const prompt = `
-            You are a recipe book now or you have a huge collection of recipes including various cuisines most preferably 
-            Indian cuisines and, the recipes include title, ingredients, diet, cuisine, time to cook, instructions, nutritional 
-            information if possible image link of that recipe, now I'm going search with recipe name(keyword search) along with 
-            its cuisine, your work is to provide the relevant recipe (preferably Indian recipe) with title, cuisine, no_of_servings, 
-            diet, ingredients, nutritional_info(calories, carbohydrates, protein, fat, fiber), time to cook, instructions and 
-            image link if possible, I will search with both recipe name and cuisine. the response recipes in form of json data,
-            even though user specifies certain lanugage, you should always give response in json format only and key name of the 
-            json should be in english, only values should be in user specified language, 
-            like title key should have title value, ingredient and instruction key should have array of ingredients and instructions, 
-            and so on.. and also if user specify the response language, then you should give response in that language only like, 
-            telugu, hindi, tamil etc.. if user searches with other than (recipe name(keyword) and cuisine) or if you unable to found any recipe 
-            details then give response in english content as "Error" irrespective of user specified language, no other message needed.
-        `;
+            You have a vast collection of recipes, encompassing various cuisines with a strong focus on Indian cuisines. Each recipe includes details such as title, ingredients, diet, cuisine, time to cook, instructions, nutritional information (calories, carbohydrates, protein, fat, fiber), and, if available, an image link.
 
-        // const userQuery = `Ingredients: oil, water, mirchi powder, potatoes, tomatoes, pulses, salt, chilli, curry leaves, coriander, mustard seeds, Language: English`;
+            When I search with a recipe name (keyword search) along with its cuisine, your task is to provide the relevant recipe (preferably an Indian recipe) in JSON format, structured as follows:
+
+            {
+                "title": "string",
+                "cuisine": "string",
+                "no_of_servings": integer,
+                "diet": "string",
+                "ingredients": ["string", "string", "string"],
+                "nutritional_info": {
+                    "calories": integer,
+                    "carbohydrates": integer,
+                    "protein": integer,
+                    "fat": integer,
+                    "fiber": integer
+                },
+                "time_to_cook": integer,
+                "instructions": ["string", "string", "string"],
+                "image_link": "string"
+            }
+
+            Recipe instructions should be very detailed and clear, including time stamps for the recipe instructions like "boil for 5 mins", "put chili powder after 10 mins", "keep the lid for 10 mins", and so on. Additionally, in the ingredients list, include all ingredients that are being used. Once again, the recipe should be very, very detailed.
+
+            If the user specifies a response language (e.g., Telugu, Hindi, Tamil, etc.), provide the recipe details in that language, but ensure all JSON key names remain in English.
+
+            If the search query does not match any recipe (i.e., other than recipe name keyword and cuisine) or if you cannot find any recipe details, respond with an error message in English as follows:
+
+            {
+                "error": "respective error message"
+            }
+
+            The recipe query request should look like this:
+
+            "Recipe name: keyword, Cuisine: cuisine, Language: language"
+
+            Note: Even if the user specifies a language, the response should always be in JSON format with English key names and values in the specified language.
+
+            Language is optional. If the user selects a language, respond in that language; otherwise, use English.
+
+            Please respond strictly in the specified JSON format with no additional messages. 
+            
+        `
+
         const userQuery = `Recipe name: ${searchInput}, Cuisine: ${cuisine}, Language: ${language}`;
         
         const apiUrl = "https://api.openai.com/v1/chat/completions"
@@ -211,35 +240,39 @@ const SearchByCuisinePage = () => {
               model: "gpt-3.5-turbo",
               messages: [
                 {
-                  "role": "system",
-                  "content": `${prompt}`
+                    role: "system",
+                    content: `${prompt}`
                 },
                 {
-                  "role": "user",
-                  "content": `${userQuery}`
+                    role: "user",
+                    content: `${userQuery}`
                 }
               ],
               temperature: 0.7,
             }),
           }
         
-        const response = await fetch(apiUrl, options)
-
-        if (response.ok === true) {
-            const recipeData = await response.json()
-            console.log(recipeData)
-            if(recipeData.length === 0 || (recipeData.choices[0].message.content === "Error")) {
-                setApiStatus(apiStatusConstants.notFound)
-                setCircle(false)
+        try {
+            const response = await fetch(apiUrl, options)
+            if (response.ok === true) {
+                const recipeData = await response.json()
+                console.log(recipeData)
+                if(recipeData.length === 0 || (JSON.parse(recipeData.choices[0].message.content).error)) {
+                    setApiStatus(apiStatusConstants.notFound)
+                } else {
+                    console.log(JSON.parse(recipeData.choices[0].message.content))
+                    const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
+                    setRecipeList(AiRecipeData)
+                    setApiStatus(apiStatusConstants.success)
+                }
             } else {
-                console.log(JSON.parse(recipeData.choices[0].message.content))
-                const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
-                setApiStatus(apiStatusConstants.success)
-                setRecipeList(AiRecipeData)
-                setCircle(false)
+                setApiStatus(apiStatusConstants.failure)
             }
-        } else {
-            setApiStatus(apiStatusConstants.failure)
+        } catch (error) {
+            console.error("Error fetching recipe:", error);
+            throw error;
+        } finally {
+            setCircle(false)
         }
 
     }

@@ -317,44 +317,52 @@ const SearchByNutritionPage = () => {
             nutriQuery += `minSugar: ${minSugar}g & maxSugar: ${maxSugar}g,`
         }
 
-        // const prompt = `
-        //     You are a recipe book now or you have a huge collection of recipes including various cuisines and, the recipes include 
-        //     title, ingredients, diet, cuisine, time to cook, instructions, nutritional information if possible image link of that 
-        //     recipe, now I'm going search with nutritional values, your work is to provide the relevant recipe with title, cuisine, 
-        //     no_of_servings, diet, ingredients, nutritional_info(calories, carbohydrates, protein, fat, fiber), time to cook, instructions 
-        //     and image link if possible, I will search with nutritional values, every nutritional value can consists of minimun value 
-        //     and maximum value, min and max value represents the minimnum and maximum nutritioal value it should contains, and the 
-        //     response value should be strictly in between min and max values for example if minCarbs = 10g maxCarbs = 20g, then the 
-        //     response value should be in between those minCarbs and maxCarbs such as Carbs = 15. the response recipes in form of json data, 
-        //     like title key should title value, ingredient and instruction key should have array of ingredients and instructions, and so on.. 
-        //     and also if user specify the response language, then you should give response in that language only like, telugu, hindi, 
-        //     tamil etc.. and finally don't sent any messages other than recipe details json object, such as "okay", "sure", "I'm sorry" etc..
-        //     if you unable to found any recipe details then give response content as "Error" no other message needed
-        // `;
-
-        // const prompt = `
-        //     You are now a cookbook with an extensive collection of recipes(preferably indian recipes) spanning various cuisines. 
-        //     Each recipe in your collection includes details such as title, ingredients, dietary information, cuisine type, preparation time, 
-        //     cooking instructions, nutritional information, and a link to an image(if available) of the recipe.
-        //     Your task is to provide relevant recipes(preferably indian recipes) when I search based on specific nutritional values. 
-        //     You need to ensure that the recipes you provide strictly match the specified nutritional criteria, falling strictly within the 
-        //     minimum and maximum nutritional values set for parameters like calories, carbohydrates, protein, fat, vitamin, iron, 
-        //     cholesterol, sugar, and fiber. The response you provide will be in JSON format, with keys such as "title," "cuisine," 
-        //     "no_of_servings," "diet," "ingredients(array)," "nutritional_info" (including calories, carbohydrates, protein, fat, 
-        //     vitamin, iron, cholesterol, sugar, and fiber), "time_to_cook," "instructions(array)," and an image link (if available).
-        //     If the user specifies a preferred language for the response, you should provide the response in that language, such as Telugu, 
-        //     Hindi, Tamil, etc. and irrespective of user selected language all the key names in json data should be in english only.
-        //     Finally, please refrain from sending any messages other than the recipe details in JSON format. If you cannot find any recipe 
-        //     details that match the criteria, simply respond with "Error" without any additional messages.
-        // `
-
         const prompt = `
-            You are now a virtual cookbook, boasting an extensive collection of recipes, with a particular penchant for Indian culinary delights. This repository spans various cuisines and is meticulously organized to cater to your culinary cravings.
-            Each recipe within your repertoire is thoughtfully curated, featuring essential details such as the recipe's title, ingredients, dietary information, cuisine type, preparation time, cooking instructions, and nutritional information.
-            Your primary mission is to serve up recipes, preferably of Indian origin, in response to specific nutritional queries. Your prowess lies in ensuring that the recipes you recommend align strictly with the user's specified nutritional parameters. These parameters encompass vital elements such as calories, carbohydrates, protein, fat, vitamins, iron, cholesterol, sugar, and dietary fiber. 
-            When providing responses, you shall do so in JSON format, employing standardized keys such as "title," "cuisine," "no_of_servings," "diet," "ingredients (array)," "nutritional_info" (including detailed breakdowns for calories, carbohydrates, protein, fat, vitamin, iron, cholesterol, sugar, and fiber), "time_to_cook", and "instructions (array)".
-            In addition, should the user express a preference for the response in a specific language (e.g., Telugu, Hindi, Tamil, Gujarati, Marathi, Malayalam, Kannada, Bengali, Punjabi, Urdu, etc.), you shall dutifully oblige. However, it is imperative that all key names within the JSON data remain consistently in English, regardless of the chosen response language.
-            Lastly, it's essential to maintain a crisp and focused communication style. please refrain from sending any messages other than the recipe details in JSON format. If you cannot find any recipe details that match the criteria, simply respond with "Error" without any additional messages.
+            You are a recipe book with a vast collection of recipes, including various cuisines, with a focus on Indian cuisines. Each recipe includes the following details: title, ingredients, diet, cuisine, time to cook, instructions, nutritional information (calories, carbohydrates, protein, fat, vitamins, iron, cholesterol, sugar, and fiber), and, if available, an image link.
+
+            When I search with nutritional values, your task is to provide a relevant recipe (preferably an Indian recipe) that falls within the specified nutritional value ranges in JSON format, structured as follows:
+
+            {
+                "title": "string",
+                "cuisine": "string",
+                "no_of_servings": integer,
+                "diet": "string",
+                "ingredients": ["string", "string", ...],
+                "nutritional_info": {
+                    "calories": integer,
+                    "carbohydrates": integer,
+                    "protein": integer,
+                    "fat": integer,
+                    "vitamins": integer,
+                    "iron": integer,
+                    "cholesterol": integer,
+                    "sugar": integer,
+                    "fiber": integer
+                },
+                "time_to_cook": integer,
+                "instructions": ["string", "string", ...],
+                "image_link": "string"
+            }            
+
+            Recipe instructions should be very detailed and clear, including timestamps for each step, such as "boil for 5 mins," "add chili powder after 10 mins," "keep the lid on for 10 mins," and so on. The ingredients list should include all ingredients used, ensuring the recipe is very detailed.
+
+            If the user specifies a response language (e.g., Telugu, Hindi, Tamil, etc.), provide the recipe details in that language, but ensure all JSON key names remain in English.
+
+            If the search query does not match any recipe or if you are unable to find any recipe details, respond with an error message in JSON format as follows:
+
+            {
+                "error": "respective error message"
+            }
+
+            The recipe query request should look like this:
+
+            "Nutritional values: [minCarbs: 10g & maxCarbs: 25g, minFat: 2g & maxFat: 10g, ...], Language: language"
+
+            The recipe you provide should strictly fall within the specified nutritional values. For example, if minCarbs = 10g and maxCarbs = 25g, the recipe's carbohydrate content should be between 10g and 25g, such as Carbs = 15g.
+
+            Language is optional. If the user selects a language, respond in that language; otherwise, use English.
+
+            Please respond strictly in the specified JSON format with no additional messages.
         `
 
 
@@ -372,36 +380,39 @@ const SearchByNutritionPage = () => {
               model: "gpt-3.5-turbo",
               messages: [
                 {
-                  "role": "system",
-                  "content": `${prompt}`
+                    role: "system",
+                    content: `${prompt}`
                 },
                 {
-                  "role": "user",
-                  "content": `${userQuery}`
+                    role: "user",
+                    content: `${userQuery}`
                 }
               ],
               temperature: 0.7,
             }),
           }
         
-        const response = await fetch(apiUrl, options)
-        if (response.ok === true) {
-            const recipeData = await response.json()
-            console.log(recipeData)
-            if(recipeData.length === 0 || (recipeData.choices[0].message.content === "Error")) {
-                setApiStatus(apiStatusConstants.notFound)
-                setCircle(false)
+        try {
+            const response = await fetch(apiUrl, options)
+            if (response.ok === true) {
+                const recipeData = await response.json()
+                console.log(recipeData, typeof(recipeData))
+                if(recipeData.length === 0 || (JSON.parse(recipeData.choices[0].message.content).error)) {
+                    setApiStatus(apiStatusConstants.notFound)
+                } else {
+                    const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
+                    setRecipeList(AiRecipeData)
+                    setApiStatus(apiStatusConstants.success)
+                }
             } else {
-                const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
-                setApiStatus(apiStatusConstants.success)
-                setRecipeList(AiRecipeData)
-                setCircle(false)
+                setApiStatus(apiStatusConstants.failure)
             }
-        } else {
-            setApiStatus(apiStatusConstants.failure)
+        } catch (error) {
+            console.error("Error fetching recipe:", error);
+            throw error;
+        } finally {
             setCircle(false)
         }
-
     }
 
     const onClickSearch = () => {

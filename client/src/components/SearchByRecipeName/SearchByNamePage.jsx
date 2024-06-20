@@ -113,8 +113,8 @@ const SearchByNamePage = () => {
         setApiStatus(apiStatusConstants.inProgress)
         const jwtToken = Cookies.get("jwtToken")
         const query = `search_q=${searchInput}&diet=${diet}&Limit=${limit}`
-        // const url = `http://localhost:5000/recipe/?${query}`
-        const url = `https://reicpe-rover-backend.onrender.com/recipe/?${query}`
+        const url = `http://localhost:5000/recipe/?${query}`
+        // const url = `https://reicpe-rover-backend.onrender.com/recipe/?${query}`
         const options = {
             method: "GET",
             headers: {
@@ -149,17 +149,44 @@ const SearchByNamePage = () => {
         setApiStatus(apiStatusConstants.inProgress)
 
         const prompt = `
-            You are a recipe book now or you have a huge collection of recipes including various cuisines most preferably 
-            Indian cuisines and, the recipes include title, ingredients, diet, cuisine, time to cook, instructions, nutritional 
-            information if possible image link of that recipe, now I'm going search with recipe name(keyword search) along with 
-            its Diet, your work is to provide the relevant recipe (preferably Indian recipe) with title, cuisine, no_of_servings, 
-            diet, ingredients, nutritional_info(calories, carbohydrates, protein, fat, fiber), time to cook, instructions and 
-            image link if possible, I will search with both recipe name and diet. the response recipes in form of json data, 
-            like title key should have title value, ingredient and instruction key should have array of ingredients and instructions, 
-            and so on.. and also if user specify the response language, then you should give response in that language only like, 
-            telugu, hindi, tamil etc.., and irrespective of user selected language all the key names in json data should be in english only.
-            if user searches with other than recipe name(keyword) or if you unable to found any recipe details then give response content 
-            as "Error" no other message needed.
+        You are a recipe book with a vast collection of recipes, particularly focusing on Indian cuisines. Each recipe includes the following details: title, cuisine, number of servings, diet, ingredients, nutritional information (calories, carbohydrates, protein, fat, fiber), time to cook, instructions, and, if possible, an image link.
+
+        When I search with a recipe name and its diet type, your task is to provide a relevant recipe, preferably an Indian recipe, in the form of JSON data structured as follows:
+        {
+            "title": "string",
+            "cuisine": "string",
+            "no_of_servings": integer,
+            "diet": "string",
+            "ingredients": ["string", "string", "string"],
+            "nutritional_info": {
+                "calories": integer,
+                "carbohydrates": integer,
+                "protein": integer,
+                "fat": integer,
+                "fiber": integer
+            },
+            "time_to_cook": integer,
+            "instructions": ["string", "string", "string"],
+            "image_link": "string"
+        }        
+        
+        Recipe instructions should be very detailed and clear, including time stamps for the recipe instructions like "boil for 5 mins", "put chili powder after 10 mins", "keep the lid for 10 mins", and so on. Additionally, in the ingredients list, include all ingredients that are being used. Once again, the recipe should be very, very detailed.
+
+        If the user specifies a response language (e.g., Telugu, Hindi, Tamil, etc..), provide the recipe details in that language, but ensure all JSON key names remain in English.
+
+        If the search query does not match a recipe name or if you are unable to find any recipe details, respond with an error message in JSON format as follows:
+        
+        {
+            "error": "respective error message"
+        }
+
+        The recipe query request should look like this:
+
+        "Recipe name: recipe name, Diet: diet, Language: language"
+
+        Diet and language will be optional. If the user selects diet or language, then consider it; otherwise, both diet and language should be empty strings with length 0.
+        
+        Please respond strictly in the specified JSON format with no additional messages.        
         `;
 
         const userQuery = `Recipe name: ${searchInput}, Diet: ${diet}, Language: ${language}`;
@@ -169,42 +196,45 @@ const SearchByNamePage = () => {
         const options = {
             method: 'POST',
             headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${apiKey}`,
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
-              model: "gpt-3.5-turbo",
-              messages: [
-                {
-                  "role": "system",
-                  "content": `${prompt}`
-                },
-                {
-                  "role": "user",
-                  "content": `${userQuery}`
-                }
-              ],
-              temperature: 0.7,
+                model: "gpt-3.5-turbo",
+                messages: [
+                    {
+                        role: "system",
+                        content: prompt
+                    },
+                    {
+                        role: "user",
+                        content: userQuery
+                    }
+                ],
+                temperature: 0.7,
             }),
-          }
+        };
         
-        const response = await fetch(apiUrl, options)
-
-        if (response.ok === true) {
-            const recipeData = await response.json()
-            console.log(recipeData)
-            if(recipeData.length === 0 || (recipeData.choices[0].message.content === "Error")) {
-                setApiStatus(apiStatusConstants.notFound)
-                setCircle(false)
+        try {
+            const response = await fetch(apiUrl, options)
+            if (response.ok === true) {
+                const recipeData = await response.json()
+                console.log(recipeData)
+                if(recipeData.length === 0 || (JSON.parse(recipeData.choices[0].message.content).error)) {
+                    setApiStatus(apiStatusConstants.notFound)
+                } else {
+                    console.log(JSON.parse(recipeData.choices[0].message.content))
+                    const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
+                    setRecipeList(AiRecipeData)
+                    setApiStatus(apiStatusConstants.success)
+                }
             } else {
-                console.log(JSON.parse(recipeData.choices[0].message.content))
-                const AiRecipeData = JSON.parse(recipeData.choices[0].message.content)
-                setApiStatus(apiStatusConstants.success)
-                setRecipeList(AiRecipeData)
-                setCircle(false)
+                setApiStatus(apiStatusConstants.failure)
             }
-        } else {
-            setApiStatus(apiStatusConstants.failure)
+        } catch (error) {
+            console.error("Error fetching recipe:", error);
+            throw error;
+        } finally {
             setCircle(false)
         }
 

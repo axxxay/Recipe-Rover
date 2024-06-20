@@ -76,8 +76,8 @@ const RegistrationPage = (props) => {
         }
         const createdAt = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 
-        // const registerUrl = "http://localhost:5000/register/"
-        const registerUrl = "https://reicpe-rover-backend.onrender.com/register"
+        const registerUrl = "http://localhost:5000/register/"
+        // const registerUrl = "https://reicpe-rover-backend.onrender.com/register"
         const username = userName.toLowerCase()
         const em = email.toLowerCase()
         const registerDetails = {

@@ -68,14 +68,14 @@ const NutritionItem = (props) => {
                 <div className="md:order-1 w-[60%]">
                     <h1 className='md:text-[22px] text-[20px] mb-2 font-[600] font-["Roboto"] text-[#3f3f3f] mt-3'>Ingredients:</h1>
                     <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                        {ingredients.ingredients.map(eachItem => (<li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
+                        {ingredients.ingredients.map((eachItem, index) => (<li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>))}
                     </ul>
                 </div>
             </div>
             <h1 className='md:text-[22px] text-[20px] mb-2 mt-3 font-[600] font-["Roboto"] text-[#3f3f3f] '>Instructions:</h1>
             <ul className='list-disc md:pl-[30px] pl-[20px] '>
-                {recipeInfo.steps.map(eachItem => 
-                    <li key={eachItem} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>
+                {recipeInfo.steps.map((eachItem, index) => 
+                    <li key={index} className='md:text-[16px] text-[13px] font-["Roboto"] '>{eachItem}</li>
                 )}
             </ul>
         </div>
