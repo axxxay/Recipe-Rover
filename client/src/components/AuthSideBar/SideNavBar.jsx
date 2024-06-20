@@ -7,7 +7,7 @@ const SideNavBar = () => {
     return(
         <nav className="flex items-center mb-[10px]">
             <RxCross2 className='text-[25px] cursor-pointer' onClick={() => setOpenLogin(false)} />
-            <p className='text-[#e26310] text-[18px] font-[500] ml-[10px]'>Recipe Rover</p>
+            <p className='text-[#e26310] text-[18px] font-[500] ml-[10px]'>Menu Maverick</p>
         </nav>
     )
 }

@@ -64,7 +64,7 @@ const NavBar = (props) => {
                 <Link to="/">
                     <div className='flex items-center'>
                         <img src='/reciperover-logo.png' alt='website logo' className='w-[60px]' />
-                        <h1 className={`text-[${logoColor}] font-[800] md:text-[20px] text-[16px] ml-2`}>Recipe Rover</h1>
+                        <h1 className={`text-[${logoColor}] font-[800] md:text-[20px] text-[16px] ml-2`}>Menu Maverick</h1>
                     </div>
                 </Link>
                 <div className="hidden md:block">
