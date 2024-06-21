@@ -76,8 +76,7 @@ const RegistrationPage = (props) => {
         }
         const createdAt = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
 
-        const registerUrl = "http://localhost:5000/register/"
-        // const registerUrl = "https://reicpe-rover-backend.onrender.com/register"
+        const url = process.env.REACT_APP_BACKEND_URL + "/api/user/register/"
         const username = userName.toLowerCase()
         const em = email.toLowerCase()
         const registerDetails = {
@@ -98,7 +97,7 @@ const RegistrationPage = (props) => {
             body: JSON.stringify(registerDetails)
         }
 
-        const response = await fetch(registerUrl, options)
+        const response = await fetch(url, options)
         const data = await response.json()
         console.log(data)
         if(response.ok === true) {
@@ -108,9 +107,9 @@ const RegistrationPage = (props) => {
             toast.success("Registration Successful!")
         } else {
             setShowErrorMessage(true)
-            setErrorMessage(data.userExists)
+            setErrorMessage(data.error)
             setCircle(false)
-            toast.error("User Already Exists!")
+            toast.error(data.error)
 
         }
     }

@@ -174,7 +174,7 @@ const SearchByNutritionPage = () => {
 
         setApiStatus(apiStatusConstants.inProgress)
 
-        let url = `https://api.spoonacular.com/recipes/findByNutrients?`
+        let url = `${process.env.REACT_APP_SPOONACULAR_API_URL}/findByNutrients?`
         if(minCarbs !== "" && maxCarbs !== "") {
             url += `minCarbs=${minCarbs}&maxCarbs=${maxCarbs}&`
         }
@@ -233,7 +233,7 @@ const SearchByNutritionPage = () => {
     }
 
     const getRecipeDetails = async (id) => {
-        const url = `https://api.spoonacular.com/recipes/${id}/analyzedInstructions`
+        const url = `${process.env.REACT_APP_SPOONACULAR_API_URL}/${id}/analyzedInstructions`
         const options = {
             method: "GET",
             headers: {
@@ -256,7 +256,7 @@ const SearchByNutritionPage = () => {
     }
 
     const getRecipeIngredients = async (id) => {
-        const url = `https://api.spoonacular.com/recipes/${id}/ingredientWidget.json`
+        const url = `${process.env.REACT_APP_SPOONACULAR_API_URL}/${id}/ingredientWidget.json`
         const options = {
             method: "GET",
             headers: {
@@ -369,7 +369,7 @@ const SearchByNutritionPage = () => {
         const userQuery = `Nutritional values: [${nutriQuery}], Language: ${language}`;
 
         
-        const apiUrl = "https://api.openai.com/v1/chat/completions"
+        const apiUrl = process.env.REACT_APP_OPENAI_API_URL;
         const options = {
             method: 'POST',
             headers: {

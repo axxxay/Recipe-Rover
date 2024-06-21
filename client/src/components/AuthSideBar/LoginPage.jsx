@@ -43,9 +43,8 @@ const LoginPage = (props) => {
         } else {
             userName = userNameEmail.toLowerCase();
         }
-
-        const loginUrl = "http://localhost:5000/login/"
-        // const loginUrl = "https://reicpe-rover-backend.onrender.com/login"
+        
+        const url = process.env.REACT_APP_BACKEND_URL + "/api/user/login/"
         const LoginDetails = {
             userName,
             email,
@@ -61,7 +60,7 @@ const LoginPage = (props) => {
             body: JSON.stringify(LoginDetails)
         }
 
-        const response = await fetch(loginUrl, options);
+        const response = await fetch(url, options);
         const data = await response.json()
         if (response.ok === true) {
             Cookies.set('jwtToken', data.jwtToken, {expires: 15})
@@ -72,9 +71,9 @@ const LoginPage = (props) => {
             toast.success("Login Successful!")
         } else {
             setShowErrorMessage(true)
-            setErrorMessage(data.invalid)
+            setErrorMessage(data.error)
             setCircle(false)
-            toast.error("Login Failed!")
+            toast.error(data.error)
             setPassword("")
             setUserNameEmail("")
         }

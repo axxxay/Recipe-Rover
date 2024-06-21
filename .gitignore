@@ -2,3 +2,6 @@ client/.env
 server/.env
 client/node_modules
 server/node_modules
+backend/node_modules
+backend/app.http
+backend/.env

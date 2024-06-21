@@ -112,9 +112,8 @@ const SearchByNamePage = () => {
         }
         setApiStatus(apiStatusConstants.inProgress)
         const jwtToken = Cookies.get("jwtToken")
-        const query = `search_q=${searchInput}&diet=${diet}&Limit=${limit}`
-        const url = `http://localhost:5000/recipe/?${query}`
-        // const url = `https://reicpe-rover-backend.onrender.com/recipe/?${query}`
+        const query = `search_q=${searchInput}&diet=${diet}&limit=${limit}`
+        const url = `${process.env.REACT_APP_BACKEND_URL}/api/recipes/?${query}`
         const options = {
             method: "GET",
             headers: {
@@ -192,7 +191,7 @@ const SearchByNamePage = () => {
         const userQuery = `Recipe name: ${searchInput}, Diet: ${diet}, Language: ${language}`;
 
         
-        const apiUrl = "https://api.openai.com/v1/chat/completions"
+        const apiUrl = process.env.REACT_APP_OPENAI_API_URL;
         const options = {
             method: 'POST',
             headers: {
