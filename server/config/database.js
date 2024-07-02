@@ -1,11 +1,12 @@
 const { Sequelize } = require('sequelize');
-const path = require('path');
-
-const dbPath = path.resolve(__dirname, '../IndianRecipes.db');
+require('dotenv').config();
 
 const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: dbPath
+  dialect: 'mysql',
+  host: process.env.DB_HOST_URL,
+  database: process.env.DB_NAME,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
 });
 
 sequelize.authenticate()

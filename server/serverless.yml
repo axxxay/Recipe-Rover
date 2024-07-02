@@ -1,0 +1,37 @@
+service: RecipeRoverRestApis
+
+provider:
+  name: aws             
+  runtime: nodejs20.x   
+  region: ap-south-1    # Your preferred AWS region
+  stage: prod  # 'dev' by default, can be overridden with 'serverless deploy --stage prod'
+  environment:
+    JWT_SECRET: reciperover69420
+    SALT_ROUNDS: 10
+    DB_HOST_URL: database-1.ct42as6y4xmj.ap-south-1.rds.amazonaws.com
+    DB_NAME: reciperover
+    DB_USER: reciperover
+    DB_PASSWORD: reciperover
+
+functions:
+  app:
+    handler: app.server
+    events:
+      - http: 
+          path: /
+          method: ANY
+          cors: true
+      - http: 
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+package:
+  patterns:
+    - 'node_modules/**'
+
+# package:
+#   exclude:
+#     - node_modules/**
+#   include:
+#     - node_modules/sqlite3/**
